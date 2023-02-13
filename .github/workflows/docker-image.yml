@@ -15,6 +15,7 @@ jobs:
       contents: read
     env:
       DOCKER_REGISTRY: "ghcr.io"
+      DOCKER_REPOSITORY: "ghcr.io/spplatdev/clair-db"
       POSTGRES_IMAGE: "postgres:11.6-alpine"
       CLAIR_VERSION: "v2.1.8"
       CLAIR_LOCAL_SCAN_IMAGE: "arminc/clair-local-scan"
@@ -64,8 +65,8 @@ jobs:
           docker logs clair
       - name: Tag images # TODO add docker stop clair when this is completed
         run: |
-          IMAGE_TAG=$DOCKER_REGISTRY/${{ github.repository }}:$(date +%Y-%m-%d)
-          IMAGE_TAG_LATEST=$DOCKER_REGISTRY/${{ github.repository }}:latest
+          IMAGE_TAG=$DOCKER_REPOSITORY:$(date +%Y-%m-%d)
+          IMAGE_TAG_LATEST=$DOCKER_REPOSITORY:latest
           docker stop postgres
           docker stop clair
           docker commit postgres $IMAGE_TAG
@@ -79,7 +80,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push images
         run: |
-          IMAGE_TAG=$DOCKER_REGISTRY/${{ github.repository }}:$(date +%Y-%m-%d)
-          IMAGE_TAG_LATEST=$DOCKER_REGISTRY/${{ github.repository }}:latest
+          IMAGE_TAG=$DOCKER_REPOSITORY:$(date +%Y-%m-%d)
+          IMAGE_TAG_LATEST=$DOCKER_REPOSITORY:latest
           docker push $IMAGE_TAG
           docker push $IMAGE_TAG_LATEST
