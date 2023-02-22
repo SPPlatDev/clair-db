@@ -2,7 +2,6 @@
 
 This is a fork of <https://github.com/arminc/clair-local-scan> as actions have been suspended due to 60 days of inactivity
 
-* Travis Job <https://travis-ci.org/arminc/clair-local-scan>
 * Clair image <https://cloud.docker.com/repository/docker/arminc/clair-local-scan>
 * Prefilled Database <ghcr.io/spplatdev/clair-db>
 
