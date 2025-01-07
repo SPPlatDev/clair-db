@@ -42,27 +42,12 @@ jobs:
         run: |
           docker ps -a
           docker logs postgres
-      - name: Run Clair
-        run: |
-          docker run --rm -d --link postgres:postgres -e PGPASSWORD=password $POSTGRES_IMAGE pg_isready -U postgres -h postgres
-          docker run -d --name clair --link postgres:postgres $CLAIR_LOCAL_SCAN_IMAGE
-      - name: Wait for clair
-        run: |
-          sleep 10
-      - name: Docker Postgres info
-        run: |
-          docker ps -a
-          docker logs postgres
-      - name: Docker Clair info
-        run: |
-          docker ps -a
-          docker logs clair
-      - name: Checking
-        run: |
-          ./check.sh
-      - name: Docker logs
-        run: |
-          docker logs clair
+      - uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          timeout_minutes: 120
+          retry_on: error
+          command: ./dlncheck.sh
       - name: Tag images # TODO add docker stop clair when this is completed
         run: |
           IMAGE_TAG=$DOCKER_REPOSITORY:$(date +%Y-%m-%d)

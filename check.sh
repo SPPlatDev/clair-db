@@ -15,6 +15,7 @@ do
     if [ $? == 0 ]; then
         docker logs -n 25 "$CONTAINER"
         echo "Error during update." >&2
+        docker stop $CONTAINER
         exit 1
     fi
 
@@ -33,3 +34,4 @@ do
     fi
 done
 echo ""
+
