@@ -43,8 +43,10 @@ jobs:
           docker ps -a
           docker logs postgres
       - uses: nick-fields/retry@v3
-        max_attempts: 3
-        command: ./dlncheck.sh
+        with:
+          max_attempts: 3
+          retry_on: error
+          command: ./dlncheck.sh
       - name: Tag images # TODO add docker stop clair when this is completed
         run: |
           IMAGE_TAG=$DOCKER_REPOSITORY:$(date +%Y-%m-%d)
