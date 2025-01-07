@@ -45,6 +45,7 @@ jobs:
       - uses: nick-fields/retry@v3
         with:
           max_attempts: 3
+          timeout_minutes: 120
           retry_on: error
           command: ./dlncheck.sh
       - name: Tag images # TODO add docker stop clair when this is completed
